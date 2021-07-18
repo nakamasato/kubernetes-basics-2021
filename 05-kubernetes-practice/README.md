@@ -52,11 +52,11 @@ kubectl create namespace $namespace
 Create a kubernetes manifest file (with 2 replicas)
 
 ```
-kubectl create deployment nginx --image nginx --replicas=2 --dry-run=client --output yaml > nginx-deployment.yaml
+kubectl create deployment nginx --image nginx:1.14.2 --replicas=2 --dry-run=client --output yaml > nginx-deployment-1.14.2.yaml
 ```
 
 ```
-kubectl apply -f nginx-deployment.yaml -n $namespace
+kubectl apply -f nginx-deployment-1.14.2.yaml -n $namespace
 ```
 
 Check `Deployment` in your namespace
@@ -114,7 +114,7 @@ kubectl get deployment -n $namespace
                 pod-template-hash=6799fc88d8
         Containers:
         nginx:
-            Image:        nginx
+            Image:        nginx:1.14.2
             Port:         <none>
             Host Port:    <none>
             Environment:  <none>
@@ -203,25 +203,6 @@ kubectl -n $namespace port-forward service/nginx 8080:80
 
         </details>
 
-## Set nginx image to `1.14.2` (Preparation)
-
-Apply `nginx:1.14.2`
-
-```
-kubectl apply -f nginx-deployment-1.14.2.yaml -n $namespace
-```
-
-- [ ] Check the image version
-
-    ```
-    kubectl get pod -n $namespace -o yaml | grep image:
-                f:image: {}
-        - image: nginx:1.14.2
-        image: nginx:1.14.2
-                f:image: {}
-        - image: nginx:1.14.2
-        image: nginx:1.14.2
-    ```
 
 ## Change image from `1.14.2` to `1.15.12`
 
@@ -399,7 +380,7 @@ kubectl apply -f nginx-deployment-1.15.12.yaml -n $namespace
 ## Clean up resources
 
 ```
-kubectl delete -f nginx-deployment.yaml -n $namespace
+kubectl delete -f nginx-deployment-1.14.2.yaml -n $namespace
 kubectl delete -f nginx-service.yaml -n $namespace
 kubectl delete ns $namespace
 ```
